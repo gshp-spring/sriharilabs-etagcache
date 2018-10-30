@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+    font-family: "Lato", sans-serif;
+    background-color: gray;
+}
+
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #008b8c;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #b9d209;
+    display: block;
+    font-family: fantasy;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 300px; 
+    margin-top: 150px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+
+
+
+
+
+<body ng-app="myApp">
+
+
+
+<div class="sidenav">
+ <a href="#!cache">cache</a>
+<a href="#!etagform">greeting1form</a>
+<a href="#!blue">demo2</a>
+</div>
+
+
+
+
+
+
+     
+<div ng-view  class="main"></div>
+
+<script>
+var app = angular.module("myApp", ["ngRoute"]);
+app.config(function($routeProvider) {
+    $routeProvider
+    .when("/t", {
+        templateUrl : "hi"
+    })
+   /*   .when("/cache", {
+        templateUrl : "getform"
+    }) */
+    .when("/etagform", {
+        templateUrl : "etagform"
+    }) 
+    .when("/cache", {
+        templateUrl : "getform"
+    });
+});
+
+
+app.controller('cacheCtrl', function($scope, $http) {
+	 
+ $http.get("/getRecords?name=srihari1")
+ .then(function(response) {
+	  
+	  $scope.res = response.data;
+     $scope.firstName = $scope.res.firstName;
+     $scope.lastName = $scope.res.lastName;
+     $scope.address = $scope.res.address; 
+     console.log(response.data);
+ });
+});
+
+
+
+app.controller('myCtrl1', function($scope, $http) {
+	 
+ $http.get("/getEtagRecords?name=srihari9")
+ .then(function(response) {
+	  
+	  $scope.res = response.data;
+    $scope.firstName1 = $scope.res.firstName;
+    $scope.lastName1 = $scope.res.lastName;
+    $scope.address1 = $scope.res.address; 
+    console.log(response.data);           
+ }); 
+});
+</script>
+
+
+</body>
+</html>
