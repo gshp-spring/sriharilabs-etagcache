@@ -56,9 +56,9 @@ body {
 
 
 <div class="sidenav">
- <a href="#!cache">cache</a>
+ <a href="#!cache">httpcache</a>
 <a href="#!etagform">etag</a>
-
+<a href="#!springcacheform">spring cache</a>
 </div>
 
 
@@ -76,9 +76,9 @@ app.config(function($routeProvider) {
     .when("/t", {
         templateUrl : "hi"
     })
-   /*   .when("/cache", {
-        templateUrl : "getform"
-    }) */
+     .when("/springcacheform", {
+        templateUrl : "getCacheform"
+    }) 
     .when("/etagform", {
         templateUrl : "etagform"
     }) 
@@ -115,6 +115,50 @@ app.controller('myCtrl1', function($scope, $http) {
     console.log(response.data);           
  }); 
 });
+
+
+
+app.controller('springcacheCtrl', ['$scope','$http', function($scope,$http) {
+	      $scope.list = [];
+	      $scope.text = 'hello';
+	      $scope.submit = function() {
+	        if ($scope.text) {
+	          $scope.list.push(this.text);
+	          
+	          $http.get("/getRecords?name="+$scope.text)
+	 		 .then(function(response) {
+	 			  
+	 			  $scope.res = response.data;
+	 		     $scope.firstName = $scope.res.firstName;
+	 		     $scope.lastName = $scope.res.lastName;
+	 		     $scope.address = $scope.res.address; 
+	 		     console.log(response.data);
+	 		 });
+	          
+	          $scope.text = '';
+	        }
+	      };
+	      
+	      
+	 	 $http.get("/getRecords?name=srihari8")
+		 .then(function(response) {
+			  
+			  $scope.res = response.data;
+		     $scope.firstName = $scope.res.firstName;
+		     $scope.lastName = $scope.res.lastName;
+		     $scope.address = $scope.res.address; 
+		     console.log(response.data);
+		 });
+	    }]);
+	  
+	  
+	  
+	  
+	  
+	
+
+
+
 </script>
 
 

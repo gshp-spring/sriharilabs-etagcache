@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-public class CachingController {
+public class HttpCachingController {
 
 	@Autowired
 	CustomerRepository customerRepository;
@@ -61,7 +62,6 @@ public class CachingController {
 
 	
 	@GetMapping("/getRecords")
-	//@CacheControl(maxAge=31556926)
 	public @ResponseBody ResponseEntity<Customer> getUser(@RequestParam String name) { 
 	    
 		try {
@@ -73,7 +73,7 @@ public class CachingController {
 			e.printStackTrace();
 		}
 		return ResponseEntity.ok()
-	      .cacheControl(CacheControl.maxAge(30, TimeUnit.SECONDS).cachePublic())
+	      .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS).cachePublic())
 	      .body(customerRepository.findByFirstName(name));
 	}
 	
