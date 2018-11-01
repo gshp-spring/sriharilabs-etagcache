@@ -1,17 +1,27 @@
 package com.sriharilabs.model;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+
 @Document
-public class Customer {
+@Setter
+@Getter
+@ToString
+public class Customer implements Serializable {
 
-    @Id
-    public String id;
-
+    
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     public String firstName;
     public Customer(String firstName, String lastName, String address) {
 		super();
@@ -21,6 +31,10 @@ public class Customer {
 	}
 	public String lastName;
     public String address;
+    
+    public Customer() {
+    	
+    }
   
 
 }

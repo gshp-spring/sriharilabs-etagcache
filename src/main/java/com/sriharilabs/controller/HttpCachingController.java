@@ -65,7 +65,7 @@ public class HttpCachingController {
 	public @ResponseBody ResponseEntity<Customer> getUser(@RequestParam String name) { 
 	    
 		try {
-			System.out.println("its coming.....");
+			log.info("its coming to http cache controller........");
 			Thread.sleep(1000);
 			//return customerRepository.findByFirstName(name);
 		} catch (InterruptedException e) {

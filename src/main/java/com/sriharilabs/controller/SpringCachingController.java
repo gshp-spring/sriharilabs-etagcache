@@ -5,6 +5,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,22 +23,23 @@ public class SpringCachingController {
 	@Autowired
 	SpringCacheCustomerRepository springCacheCustomerRepository;
 	
+	Customer cust;
 	
-
 	
 	@GetMapping("/getCacheRecords")
-	public @ResponseBody ResponseEntity<Customer> getUser(@RequestParam String name) { 
-	    
+	@Cacheable("customer")
+	public @ResponseBody Customer getUser(@RequestParam String name) { 
+		
 		try {
-			System.out.println("its getCacheRecords.....");
-			Thread.sleep(1000);
+			log.info("its getCacheRecords.....");
+			cust =springCacheCustomerRepository.findByFirstName(name);
+			System.out.println("koti........"+cust.getFirstName());
 			//return customerRepository.findByFirstName(name);
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return ResponseEntity.ok()
-	      .body(springCacheCustomerRepository.findByFirstName(name));
+		return cust;
 	}
 	
 	@GetMapping("/getCacheform")
@@ -45,4 +48,6 @@ public class SpringCachingController {
 		
 		return "springcache";
 	}
+	
+	
 }
